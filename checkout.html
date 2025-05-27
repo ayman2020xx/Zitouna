@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finaliser l'achat - Zitouna</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="details.css" />
+  <style>
+    /* Temporary styles until we refine details.css for checkout */
+    #checkout {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    #cart-summary {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    #cart-summary h2 {
+      margin-bottom: 15px;
+      margin-top: -2rem;
+      color: #5e0808;
+      font-weight: 900;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #checkout-form {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    #checkout-form h2 {
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+    }
+
+    #checkout-form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    #checkout-form input,
+    #checkout-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #checkout-form textarea {
+      resize: vertical;
+    }
+
+    .finaliser-achat-btn {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .finaliser-achat-btn:hover {
+      background-color: #388E3C;
+    }
+
+    #confirmation-message {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: green;
+    }
+
+    .hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background-color: #D1DABD;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1664' height='199.7' viewBox='0 0 1000 120'%3E%3Cg fill='none' stroke='%23C7D0B3' stroke-width='11.4' %3E%3Cpath d='M-500 75c0 0 125-30 250-30S0 75 0 75s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 45c0 0 125-30 250-30S0 45 0 45s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 105c0 0 125-30 250-30S0 105 0 105s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 15c0 0 125-30 250-30S0 15 0 15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500-15c0 0 125-30 250-30S0-15 0-15s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3Cpath d='M-500 135c0 0 125-30 250-30S0 135 0 135s125 30 250 30s250-30 250-30s125-30 250-30s250 30 250 30s125 30 250 30s250-30 250-30'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.hero h1 {
+  font-size: 3rem;
+  color: #088178;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+
+#checkout {
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  border-radius: 12px;
+}
+
+#checkout-form h2,
+#cart-summary h2 {
+  color: #088178;
+}
+
+#checkout-form input:focus,
+#checkout-form textarea:focus {
+  outline: none;
+  border-color: #088178;
+  box-shadow: 0 0 5px rgba(8, 129, 120, 0.5);
+}
+
+#confirmation-message {
+  font-size: 1.2rem;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <section id="header">
+    <a href="Accueil.html"><img src="logo.png" class="logo" alt="Logo Zitouna"></a>
+    <ul id="navbar">
+      <li><a href="Accueil.html">Accueil</a></li>
+      <li><a class="active" href="Boutique.html">Boutique</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+      <a href="#" id="close"><i class="far fa-times"></i></a>
+    </ul>
+    <div id="mobile">
+      <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </section>
+
+    <section class="hero animate-in delay-1">
+        <h1>#Finaliser l'achat</h1>
+    </section>
+
+  <!-- Checkout Section -->
+  <section id="checkout" class="section-p1">
+
+    <form id="checkout-form">
+      <h2>Informations de livraison</h2>
+
+      <label for="nom">Nom complet :</label>
+      <input type="text" id="nom" name="nom" placeholder="Votre nom" required />
+
+      <label for="email">Email :</label>
+      <input type="email" id="email" name="email" placeholder="Votre email" required />
+
+      <label for="telephone">Téléphone :</label>
+      <input type="tel" id="telephone" name="telephone" placeholder="Votre numéro" required />
+
+      <label for="adresse">Adresse :</label>
+      <textarea id="adresse" name="adresse" placeholder="Votre adresse" required></textarea>
+
+      <button type="submit" class="finaliser-achat-btn">Finaliser l'achat</button>
+    </form>
+
+    <div id="confirmation-message"></div>
+  </section>
+
+  <footer class="section-p1">
+    <p>© 2025 Zitouna. Tous droits réservés.</p>
+  </footer>
+
+  <script src="checkout.js"></script>
+</body>
+</html>

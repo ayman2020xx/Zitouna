@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accueil - Zitouna</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="Accueil.css" />
+</head>
+
+<body>
+
+  <section id="header">
+    <a href="Accueil.html"><img src="logo.png" class="logo" alt="Logo Zitouna"></a>
+    <ul id="navbar">
+      <li><a class="active" href="Accueil.html">Accueil</a></li>
+      <li><a href="Boutique.html">Boutique</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+      <a href="#" id="close"><i class="far fa-times"></i></a>
+    </ul>
+    <div id="mobile">
+      <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </section>
+
+  <section id="hero">
+    <img id="left-img" class="product-img left" src="" alt="Produit gauche" />
+    <div class="hero-content">
+      <h1>Naturel. Pur. Délicieux.</h1>
+      <p>Découvrez nos huiles de qualité, fabriquées avec soin et tradition.</p>
+      <a href="Boutique.html">
+      <button>Découvrir</button>
+      </a>
+    </div>
+    <img id="right-img" class="product-img right" src="" alt="Produit droit" />
+  </section>
+
+  <!-- Produits en vedette -->
+  <section id="featured-products" class="section-p1">
+    <h2>Produits en vedette</h2>
+    <div class="scroll-wrapper">
+    <button class="scroll-btn left">&#8249;</button>
+    <div class="products-grid" id="productScroll">
+      <a href="details.html?id=amande" class="product-card">
+        <img src="amande-v.png" alt="Huile d'Amande" />
+        <h4>Amlou d'Amande</h4>
+        <p class="price">229 MAD</p>
+        <button>Ajouter au panier</button>
+      </a>
+      <a href="details.html?id=arachide" class="product-card">
+        <img src="arachide-v.png" alt="Huile d'Arachide" />
+        <h4>Amlou d'Arachide</h4>
+        <p class="price">110 MAD</p>
+        <button>Ajouter au panier</button>
+      </a>
+      <a href="details.html?id=chocolat" class="product-card">
+        <img src="chocolat-v.png" alt="Huile de Chocolat" />
+        <h4>Amlou de Chocolat</h4>
+        <p class="price">149 MAD</p>
+        <button>Ajouter au panier</button>
+      </a>
+      <a href="details.html?id=olive" class="product-card">
+        <img src="olive-v.png" alt="Huile d'Olive" />
+        <h4>Huile d'Olive 1L</h4>
+        <p class="price">99 MAD</p>
+        <button>Ajouter au panier</button>
+      </a>
+    </div>
+    <button class="scroll-btn right">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- À propos -->
+  <section id="about-us" class="section-p1 section-m1">
+    <div class="about-text">
+      <h2>À propos de Zitouna</h2>
+      <p>
+        Chez Zitouna, nous célébrons le meilleur de la nature marocaine en vous proposant
+        une gamme authentique de produits artisanaux : huiles naturelles de qualité,
+        amlou fait maison, safran pur (zafaran), et bien plus encore. 
+        Chaque produit est soigneusement sélectionné ou préparé dans le respect des traditions,
+        afin de vous offrir une expérience saine, savoureuse et authentique.<br><br>
+        Et ce n’est que le début — nous espérons élargir notre offre avec encore plus de produits naturels
+        et faits maison très bientôt.
+      </p>
+    <div class="about-mobile">
+      <img src="about-oil.png" alt="À propos de Zitouna" />
+    </div>
+      <button>En savoir plus</button>
+    </div>
+    <div class="about-image">
+      <img src="about-oil.png" alt="À propos de Zitouna" />
+    </div>
+  </section>
+
+  <!-- Évaluation -->
+<section id="newsletter">
+  <h2>Évaluez notre site</h2>
+  <p>Nous espérons ajouter d'autres produits bientôt !</p>
+  <div class="star-rating">
+    <i class="fas fa-star" data-value="1"></i>
+    <i class="fas fa-star" data-value="2"></i>
+    <i class="fas fa-star" data-value="3"></i>
+    <i class="fas fa-star" data-value="4"></i>
+    <i class="fas fa-star" data-value="5"></i>
+  </div>
+  <p id="rating-value">Note : 0/5</p>
+  <button id="send-rating">Envoyer</button>
+  <p id="thank-you" style="margin-top: 15px; color: #088178; font-weight: 600;"></p>
+</section>
+
+
+  <!-- Pied de page -->
+  <footer>
+    <div class="footer-content section-p1">
+      <div class="footer-about">
+        <h3>Zitouna</h3>
+        <p>Votre source de confiance pour des produits naturels de qualité.</p>
+        <div class="social-icons">
+          <a href="https://web.facebook.com/profile.php?id=61576309719488"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/_zitouna.ma_/"><i class="fab fa-instagram"></i></a>
+          <a href="https://x.com/_Zitouna_"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h4>Liens rapides</h4>
+        <ul>
+          <li><a href="Accueil.html">Accueil</a></li>
+          <li><a href="Boutique.html">Boutique</a></li>
+          <li><a href="a-propos.html">À propos</a></li>
+          <li><a href="Contact.html">Contact</a></li>
+        </ul>
+    </div>
+<div class="footer-contact">
+  <h4>Contact</h4>
+  <div class="contact-item">
+    <p>Email : <a href="mailto:zitouna743@gmail.com">supporte@zitouna.ma</a></p>
+  </div>
+  <div class="contact-item">
+    <p>Téléphone : <a href="tel:+212712510969">+212 712 510 969</a></p>
+  </div>
+</div>
+
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Zitouna. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="Accueil.js"></script>
+</body>
+</html>
+
+

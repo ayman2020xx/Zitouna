@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>À propos - Zitouna</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <style>
+@import url("https://fonts.googleapis.com/css2?family=Spartan:wght@400;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Spartan", sans-serif;
+}
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+.logo {
+  width: 120px;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 80px;
+  background: #dff1e0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  list-style: none;
+}
+
+#navbar.active{
+  right: 0px;
+}
+
+#navbar li a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  color: #1a1a1a;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+#navbar li a.active,
+#navbar li a:hover {
+  color: #088178;
+}
+
+#navbar li a::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #088178;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  transition: 0.3s;
+}
+
+#navbar li a.active::after,
+#navbar li a:hover::after {
+  width: 60%;
+}
+
+#mobile{
+  display: none;
+  align-items: center;
+}
+
+#close{
+  display: none;
+}
+
+    /* Main Content */
+    .about-container {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.432);
+      padding: 2rem 3rem;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+      background-color: #e6f7e9;
+      opacity: 0.8;
+      background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #e6f7e9 10px ), repeating-linear-gradient( #aed7af55, #aed7af );
+    }
+
+    @keyframes fadeInUP {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+.fade-in-intro {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+.fade-in-intro:nth-child(1) { animation-delay: 0.1s; }
+.fade-in-intro:nth-child(2) { animation-delay: 0.2s; }
+.fade-in-intro:nth-child(3) { animation-delay: 0.3s; }
+.fade-in-intro:nth-child(4) { animation-delay: 0.4s; }
+.fade-in-intro:nth-child(5) { animation-delay: 0.5s; }
+.fade-in-intro:nth-child(6) { animation-delay: 0.6s; }
+.fade-in-intro:nth-child(7) { animation-delay: 0.7s; }
+.fade-in-intro:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+    .about-container h1 {
+      color: #088178;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .about-section {
+      margin-top: 2rem;
+    }
+
+    .about-section h2 {
+      font-size: 1.6rem;
+      color: #055b54;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-section p {
+      font-size: 1.1rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 600px) {
+  #header {
+    padding: 15px 30px;
+  }
+
+  #navbar{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    height: 100vh;
+    width: 300px;
+    z-index: 9999;
+    background-color: #c6cec0;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.4);
+    padding: 80px 0 0 20px;
+    transition: 0.26s;
+  }
+
+  #navbar li{
+    margin-bottom: 15px;
+  }
+
+  #mobile{
+  display: flex;
+  align-items: center;
+  }
+
+  #mobile i{
+    color: #1a1a1a;
+    font-size: 24px;
+    padding-left: 20px;
+  }
+
+  #close{
+    display: initial;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: #222;
+    font-size: 24px;
+  }
+
+  #lg-bag{
+    display: none;
+  }
+
+      /* Main Content */
+    .about-container {
+      max-width: 405px;
+    }
+
+
+    .about-container h1 {
+      color: #088178;
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: -0.4rem;
+      letter-spacing: 1px;
+    }
+
+    .about-section {
+      margin-top: 2rem;
+    }
+
+    .about-section h2 {
+      font-size: 1.3rem;
+      color: #055b54;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-section p {
+      font-size: 0.8rem;
+      color: #444;
+      line-height: 1.6;
+    }
+    }
+
+     @media (max-width: 400px) {
+    .about-container {
+      max-width: 365px;
+    }
+
+    .about-container h1 {
+      color: #088178;
+      font-size: 1.39rem;
+      font-weight: 800;
+      margin-bottom: -0.4rem;
+      letter-spacing: 1px;
+    }
+
+    .about-section h2 {
+      font-size: 1.2rem;
+      color: #055b54;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-section p {
+      font-size: 0.8rem;
+      color: #444;
+      line-height: 1.6;
+      margin-bottom: 1re ;
+    }
+     }
+
+    .contact-section a {
+  color: #088178;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-section a:hover {
+  text-decoration: underline;
+}
+
+.social-icons {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.2rem;
+  font-size: 1.6rem;
+}
+
+.social-icons a {
+  color: #088178;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #055b54;
+}
+
+
+/* === Footer === */
+
+footer.section-p1 {
+  background: #f8f8f8;
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 4rem;
+  border-top: 1px solid #e2e2e2;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <section id="header">
+    <a href="Accueil.html"><img src="logo.png" class="logo" alt="Logo Zitouna"></a>
+    <ul id="navbar">
+      <li><a href="Accueil.html">Accueil</a></li>
+      <li><a href="Boutique.html">Boutique</a></li>
+      <li><a class="active" href="a-propos.html">À propos</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+      <a href="#" id="close"><i class="far fa-times"></i></a>
+    </ul>
+    <div id="mobile">
+      <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="about-container" aria-label="À propos de Zitouna">
+
+<div class="fade-in-intro">
+<h1>À propos de Zitouna</h1>
+</div>
+
+<div class="fade-in-intro">
+<div class="about-section">
+  <h2>Qui sommes-nous ?</h2>
+  <p>
+    Chez Zitouna, nous sommes passionnés par les trésors du terroir marocain. 
+    Nous proposons une sélection artisanale de produits naturels : Amlou aux différentes saveurs, 
+    huile d’argan, huile d’olive, et safran pur. 
+    Chaque produit est soigneusement élaboré pour offrir une qualité exceptionnelle et une authenticité sans compromis.
+  </p>
+</div>
+</div>
+
+
+
+<div class="fade-in-intro">
+<div class="about-section">
+  <h2>Notre mission</h2>
+  <p>
+    Mettre en valeur les richesses naturelles du Maroc à travers des produits gourmands et sains. 
+    Nous soutenons l’artisanat local, respectons les traditions, et vous offrons le meilleur du patrimoine culinaire marocain.
+  </p>
+</div>
+</div>
+
+<div class="fade-in-intro">
+<div class="about-section">
+  <h2>Nos valeurs</h2>
+  <p>
+    🌿 Authenticité & tradition<br>
+    ✨ Qualité artisanale<br>
+    🤝 Engagement local<br>
+    🌍 Respect de la nature & durabilité
+  </p>
+</div>
+</div>
+
+<div class="fade-in-intro">
+<div class="about-section contact-section">
+  <h2>Nous contacter</h2>
+  <p>
+    📞 Téléphone : <a href="tel:+212712510969">+212 712 510 969</a><br>
+    📧 Email : <a href="mailto:zitouna743@gmail.com">supporte@zitouna.ma</a><br><br>
+    Suivez-nous sur les réseaux sociaux :
+  </p>
+  <div class="social-icons">
+    <a href="https://web.facebook.com/profile.php?id=61576309719488" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/_zitouna.ma_" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+    <a href="https://x.com/_Zitouna_" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+  </div>
+</div>
+</div>
+  </section>
+
+    <!-- Footer -->
+  <footer class="section-p1">
+    <p>© 2025 Zitouna. Tous droits réservés.</p>
+  </footer>
+  
+  <script>
+    // Navbar toggle
+const bar = document.getElementById('bar');
+const close = document.getElementById('close');
+const nav = document.getElementById('navbar');
+
+if (bar && nav) {
+  bar.addEventListener('click', () => {
+    nav.classList.add('active');
+  });
+}
+
+if (close && nav) {
+  close.addEventListener('click', () => {
+    nav.classList.remove('active');
+  });
+}
+
+// Hero Image Animation
+const leftImg = document.getElementById("left-img");
+const rightImg = document.getElementById("right-img");
+
+const images = [
+  ["amande-hero.png", "arachide-hero.png"],
+  ["chocolat-hero.png", "olive-hero.png"],
+  ["argan-hero.png", "zaefran-hero.png"]
+];
+
+let index = 0;
+
+function cycleImages() {
+  if (!leftImg || !rightImg) return;
+
+  leftImg.style.opacity = 0;
+  rightImg.style.opacity = 0;
+  leftImg.style.transform = "translateY(-50%) scale(0.95)";
+  rightImg.style.transform = "translateY(-50%) scale(0.95)";
+
+  setTimeout(() => {
+    leftImg.src = images[index][0];
+    rightImg.src = images[index][1];
+
+    leftImg.style.opacity = 1;
+    rightImg.style.opacity = 1;
+    leftImg.style.transform = "translateY(-50%) scale(1)";
+    rightImg.style.transform = "translateY(-50%) scale(1)";
+
+    index = (index + 1) % images.length;
+  }, 400);
+}
+
+setInterval(cycleImages, 3500);
+cycleImages();
+  </script>
+</body>
+</html>

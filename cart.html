@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panier - Zitouna</title>
+  <link rel="stylesheet" href="cart.css" />
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <section id="header">
+    <a href="Accueil.html"><img src="logo.png" class="logo" alt="Logo Zitouna"></a>
+    <ul id="navbar">
+      <li><a href="Accueil.html">Accueil</a></li>
+      <li><a href="Boutique.html">Boutique</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li id="lg-bag"><a class="active" href="#"><i class="far fa-shopping-bag"></i></a></li>
+      <a href="#" id="close"><i class="far fa-times"></i></a>
+    </ul>
+    <div id="mobile">
+      <a href="cart.html" class="active"><i class="far fa-shopping-bag"></i></a>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </section>
+
+  <!-- Hero -->
+  <section class="hero animate-in delay-1">
+    <h1>#Panier</h1>
+    <p>Vous avez une question ou une demande ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
+  </section>
+
+  <!-- Panier -->
+<section id="cart" class="section-p1">
+  <div class="cart-container">
+    <table width="100%">
+      <thead>
+        <tr>
+          <td>Retirer</td>
+          <td>Image</td>
+          <td>Produit</td>
+          <td>Prix</td>
+          <td>Quantité</td>
+          <td>Total</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="#"><i class="far fa-times-circle"></i></a></td>
+          <td><img src="amande-hero.png" alt=""></td>
+          <td>Amlou d'Amande</td>
+          <td>229 MAD</td>
+          <td><input type="number" value="1"></td>
+          <td>229 MAD</td>
+        </tr>
+        <!-- More rows... -->
+      </tbody>
+    </table>
+
+</section>
+
+    <div class="cart-actions">
+      <button id="finaliser-achat" class="finaliser-achat-btn">Finaliser l'achat</button>
+    </div>
+<div class="cart-total">
+  <p>Total : <span id="cart-total-amount">0 MAD</span></p>
+</div>
+
+
+
+
+  <!-- Scripts -->
+  <script>
+// Navbar toggle
+const bar = document.getElementById('bar');
+const close = document.getElementById('close');
+const nav = document.getElementById('navbar');
+
+if (bar && nav) {
+  bar.addEventListener('click', () => nav.classList.add('active'));
+}
+if (close && nav) {
+  close.addEventListener('click', () => nav.classList.remove('active'));
+}
+
+// LocalStorage Functions
+function getCart() {
+  return JSON.parse(localStorage.getItem("panier")) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem("panier", JSON.stringify(cart));
+}
+
+// Render Cart
+function renderCart() {
+  const cart = getCart();
+  const tbody = document.querySelector("#cart tbody");
+  const btn = document.getElementById("finaliser-achat");
+
+  tbody.innerHTML = "";
+  let totalGeneral = 0;
+
+  if (cart.length === 0) {
+    tbody.innerHTML = "<tr><td colspan='6'>Votre panier est vide.</td></tr>";
+    btn.style.display = "none";
+    document.getElementById("cart-total-amount").textContent = "0 MAD";
+    return;
+  }
+
+  cart.forEach((item, index) => {
+    const totalLigne = item.prix * item.quantite;
+    totalGeneral += totalLigne;
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><a href="#" class="remove-item" data-index="${index}"><i class="far fa-times-circle"></i></a></td>
+      <td><img src="${item.image}" alt="${item.nom}"></td>
+      <td>${item.nom}</td>
+      <td>${item.prix} MAD</td>
+      <td><input type="number" min="1" value="${item.quantite}" data-index="${index}" class="quantite-input"></td>
+      <td>${totalLigne} MAD</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  btn.style.display = "block";
+  document.getElementById("cart-total-amount").textContent = `${totalGeneral} MAD`;
+}
+
+// Remove item event listener
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".remove-item")) {
+    e.preventDefault();
+    const index = e.target.closest(".remove-item").dataset.index;
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCart();
+  }
+});
+
+// Quantity change event listener
+document.addEventListener("change", function(e) {
+  if (e.target.classList.contains("quantite-input")) {
+    const index = e.target.dataset.index;
+    const nouvelleQuantite = parseInt(e.target.value);
+    if (nouvelleQuantite >= 1) {
+      const cart = getCart();
+      cart[index].quantite = nouvelleQuantite;
+      saveCart(cart);
+      renderCart();
+    }
+  }
+});
+
+// Initialize the cart display on page load
+window.addEventListener("DOMContentLoaded", renderCart);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const checkoutBtn = document.getElementById("finaliser-achat");
+    if (checkoutBtn) {
+      checkoutBtn.addEventListener("click", () => {
+        window.location.href = "checkout.html";
+      });
+    }
+  });
+  
+  </script>
+
+</body>
+</html>

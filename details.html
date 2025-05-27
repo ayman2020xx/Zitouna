@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Détails du produit - Zitouna</title>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <link rel="stylesheet" href="details.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <section id="header">
+    <a href="Accueil.html"><img src="logo.png" class="logo" alt="Logo Zitouna"></a>
+    <ul id="navbar">
+      <li><a href="Accueil.html">Accueil</a></li>
+      <li><a class="active" href="Boutique.html">Boutique</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+      <a href="#" id="close"><i class="far fa-times"></i></a>
+    </ul>
+    <div id="mobile">
+      <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </section>
+
+  <!-- Product Details -->
+  <section class="product-details-section" aria-label="Détails du produit">
+
+    <img id="product-image" src="" alt="" loading="lazy" />
+    
+    <div class="product-info">
+      <h1 id="product-name"></h1>
+      <p id="product-description"></p>
+      <p id="product-price"></p>
+
+      <section class="pc-inf">
+        <div class="quantity-selector">
+          <label for="quantity-pc">Quantité :</label>
+          <input type="number" id="quantity-pc" min="1" value="1" aria-describedby="quantityHelp" />
+        </div>
+
+        <button class="add-to-cart-btn" id="add-to-cart-btn-pc" aria-label="Ajouter au panier">Ajouter au panier</button>
+        <a href="checkout.html"><button class="buy-now-btn" id="buy-now-btn-pc" aria-label="Acheter maintenant">acheter maintenant</button></a>
+        <div id="cart-message-pc" role="alert" aria-live="polite"></div>
+      </section>
+    </div>
+  </section>
+
+  <section class="mobile-inf">
+    <div class="quantity-selector">
+      <label for="quantity-mobile">Quantité :</label>
+      <input type="number" id="quantity-mobile" min="1" value="1" aria-describedby="quantityHelp" />
+    </div>
+
+    <button class="add-to-cart-btn" id="add-to-cart-btn-mobile" aria-label="Ajouter au panier">Ajouter au panier</button>
+    <button class="buy-now-btn" id="buy-now-btn-mobile" aria-label="Acheter maintenant">acheter maintenant</button>
+    <div id="cart-message-mobile" role="alert" aria-live="polite"></div>
+  </section>
+
+  <!-- Related Products Section -->
+  <section class="related-products" aria-label="Produits liés">
+    <h2>Produits liés</h2>
+    <div class="scroll-container-wrapper">
+      <button class="scroll-btn left" aria-label="Défiler à gauche">&lt;</button>
+      <div class="related-products-list" id="related-products-list">
+        <!-- Related products will be dynamically inserted here -->
+      </div>
+      <button class="scroll-btn right" aria-label="Défiler à droite">&gt;</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="section-p1">
+    <p>© 2025 Zitouna. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    // Navbar toggle
+    const bar = document.getElementById('bar');
+    const close = document.getElementById('close');
+    const nav = document.getElementById('navbar');
+
+    if (bar && nav) {
+      bar.addEventListener('click', () => {
+        nav.classList.add('active');
+      });
+    }
+
+    if (close && nav) {
+      close.addEventListener('click', () => {
+        nav.classList.remove('active');
+      });
+    }
+
+    // Product data
+    const products = {
+      amande: {
+        name: "Huile d'Amande",
+        description: "Huile naturelle 100% pure d’amande douce, idéale pour nourrir la peau et les cheveux en douceur.",
+        price: 150,
+        image: "amande-hero.png",
+      },
+      arachide: {
+        name: "Huile d'Arachide",
+        description: "Huile d’arachide raffinée, parfaite pour la cuisson et la friture avec un goût neutre.",
+        price: 90,
+        image: "arachide-hero.png",
+      },
+      chocolat: {
+        name: "Huile de Chocolat",
+        description: "Huile aromatique au cacao pour soins cosmétiques et bien-être, riche en antioxydants.",
+        price: 210,
+        image: "chocolat-hero.png",
+      },
+      olive: {
+        name: "Huile d'Olive 1L",
+        description: "Huile d'olive extra vierge, pressée à froid, excellente pour la cuisine et la santé.",
+        price: 120,
+        image: "olive-hero.png",
+      },
+      olive2: {
+        name: "Huile d'Olive 500ml",
+        description: "Huile d'olive extra vierge, pressée à froid, excellente pour la cuisine et la santé.",
+        price: 120,
+        image: "olive-hero.png",
+      },
+      argan: {
+        name: "Huile d'Argan 1L",
+        description: "Huile d'argan pure pour soin de la peau et des cheveux, reconnue pour ses propriétés nourrissantes.",
+        price: 250,
+        image: "argan-hero.png",
+      },
+      argan2: {
+        name: "Huile d'Argan 500ml",
+        description: "Huile d'argan pure pour soin de la peau et des cheveux, reconnue pour ses propriétés nourrissantes.",
+        price: 250,
+        image: "argan-hero.png",
+      },
+      zaefran: {
+        name: "Zaâfran",
+        description: "Huile précieuse infusée au safran, utilisée pour ses vertus apaisantes et éclatantes.",
+        price: 149,
+        image: "zaefran-hero.png",
+      },
+    };
+
+    // Get product id from URL
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get("id") || "amande"; // default product
+
+    // DOM elements
+    const productName = document.getElementById("product-name");
+    const productDescription = document.getElementById("product-description");
+    const productPrice = document.getElementById("product-price");
+    const productImage = document.getElementById("product-image");
+
+    // PC elements
+    const quantityInputPC = document.getElementById("quantity-pc");
+    const addToCartBtnPC = document.getElementById("add-to-cart-btn-pc");
+    const cartMessagePC = document.getElementById("cart-message-pc");
+
+    // Mobile elements
+    const quantityInputMobile = document.getElementById("quantity-mobile");
+    const addToCartBtnMobile = document.getElementById("add-to-cart-btn-mobile");
+    const cartMessageMobile = document.getElementById("cart-message-mobile");
+
+    // Render product details
+    function renderProduct(id) {
+      const product = products[id];
+      if (!product) return;
+
+      productName.textContent = product.name;
+      productDescription.textContent = product.description;
+      productPrice.textContent = `${product.price} MAD`;
+      productImage.src = product.image;
+      productImage.alt = product.name;
+    }
+
+    // Récupérer le panier depuis le localStorage
+    function getCart() {
+      return JSON.parse(localStorage.getItem("panier")) || [];
+    }
+
+    // Sauvegarder le panier dans le localStorage
+    function saveCart(cart) {
+      localStorage.setItem("panier", JSON.stringify(cart));
+    }
+
+    // Fonction commune pour ajouter au panier
+    function addToCart(quantity, messageContainer) {
+      if (isNaN(quantity) || quantity < 1) {
+        messageContainer.textContent = "Veuillez entrer une quantité valide.";
+        messageContainer.classList.add("show");
+        return;
+      }
+
+      const cart = getCart();
+      const produitExistant = cart.find(item => item.id === productId);
+
+      if (produitExistant) {
+        produitExistant.quantite += quantity;
+      } else {
+        cart.push({
+          id: productId,
+          nom: products[productId].name,
+          prix: products[productId].price,
+          image: products[productId].image,
+          quantite: quantity
+        });
+      }
+
+      saveCart(cart);
+
+      messageContainer.textContent = `Vous avez ajouté ${quantity} × ${products[productId].name} au panier.`;
+      messageContainer.classList.add("show");
+
+      setTimeout(() => {
+        messageContainer.classList.remove("show");
+        messageContainer.textContent = "";
+      }, 3500);
+    }
+
+    // Attach event listeners to both buttons
+    addToCartBtnPC.addEventListener("click", () => {
+      const qty = parseInt(quantityInputPC.value);
+      addToCart(qty, cartMessagePC);
+    });
+
+    addToCartBtnMobile.addEventListener("click", () => {
+      const qty = parseInt(quantityInputMobile.value);
+      addToCart(qty, cartMessageMobile);
+    });
+
+    // Render related products except current
+    function renderRelatedProducts() {
+      const container = document.getElementById("related-products-list");
+      if (!container) return;
+
+      // Clear old
+      container.innerHTML = "";
+
+      const related = Object.entries(products).filter(([key]) => key !== productId);
+
+      related.forEach(([key, prod], index) => {
+        const card = document.createElement("div");
+        card.className = "related-product-card";
+        card.style.animationDelay = `${0.15 * index}s`; // stagger animation
+
+        card.innerHTML = `
+          <img src="${prod.image}" alt="${prod.name}" loading="lazy" />
+          <h3>${prod.name}</h3>
+          <p>${prod.price} MAD</p>
+        `;
+
+        card.addEventListener("click", () => {
+          window.location.href = `details.html?id=${key}`;
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    // Initialize
+    window.addEventListener("DOMContentLoaded", () => {
+      renderProduct(productId);
+      renderRelatedProducts();
+    });
+
+    // Scrolling for related products
+    document.addEventListener("DOMContentLoaded", () => {
+      const container = document.getElementById("related-products-list");
+      const leftBtn = document.querySelector(".scroll-btn.left");
+      const rightBtn = document.querySelector(".scroll-btn.right");
+
+      const scrollAmount = 220; // pixels
+
+      leftBtn.addEventListener("click", () => {
+        container.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      });
+
+      rightBtn.addEventListener("click", () => {
+        container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      });
+    });
+  </script>
+</body>
+</html>

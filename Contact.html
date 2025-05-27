@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contactez-nous</title>
+  <link rel="stylesheet" href="Contact.css" />
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <section id="header">
+    <a href="Accueil.html"><img src="logo.png" class="logo" alt="Logo Zitouna"></a>
+    <ul id="navbar">
+      <li><a href="Accueil.html">Accueil</a></li>
+      <li><a href="Boutique.html">Boutique</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a class="active" href="Contact.html">Contact</a></li>
+      <li id="lg-bag"><a href="cart.html"><i class="far fa-shopping-bag"></i></a></li>
+      <a href="#" id="close"><i class="far fa-times"></i></a>
+    </ul>
+    <div id="mobile">
+      <a href="cart.html"><i class="far fa-shopping-bag"></i></a>
+      <i id="bar" class="fas fa-outdent"></i>
+    </div>
+  </section>
+
+<div class="page-content">
+
+  <!-- Hero -->
+  <section class="contact-hero animate-in delay-1">
+    <h1>Contactez-nous</h1>
+    <p>Vous avez une question ou une demande ? Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.</p>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="contact-form-container">
+      <form class="contact-form animate-in delay-2">
+        
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <button type="submit">Envoyer</button>
+      </form>
+
+<div id="success-message" class="success-message" style="display: none;">
+  ✅ Votre message a été envoyé avec succès.
+</div>
+
+
+      <div class="contact-info animate-in delay-3">
+        <h3>Nos coordonnées</h3>
+        <p>Email : <a href="mailto:zitouna743@gmail.com">supporte@zitouna.ma</a></p>
+        <p>Téléphone : <a href="tel:+212712510969">+212 712 510 969</a></p>
+      </div>
+    </div>
+  </section>
+</div>
+
+  <!-- Footer -->
+  <footer class="section-p1">
+    <p>© 2025 Zitouna. Tous droits réservés.</p>
+  </footer>
+
+<script>
+    // Navbar toggle
+const bar = document.getElementById('bar');
+const close = document.getElementById('close');
+const nav = document.getElementById('navbar');
+
+if (bar && nav) {
+  bar.addEventListener('click', () => {
+    nav.classList.add('active');
+  });
+}
+
+if (close && nav) {
+  close.addEventListener('click', () => {
+    nav.classList.remove('active');
+  });
+}
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector(".contact-form");
+    const successMessage = document.getElementById("success-message");
+
+    // Ensure message is hidden on load
+    successMessage.style.display = "none";
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      // Show the message only when button is pressed
+      successMessage.style.display = "block";
+
+      // Optional: hide after 5 seconds
+      setTimeout(() => {
+        successMessage.style.display = "none";
+      }, 5000);
+
+      form.reset();
+    });
+  });
+
+const msg = document.getElementById("success-message");
+msg.style.display = "block";
+setTimeout(() => msg.style.display = "none", 5000);
+</script>
+</body>
+</html>
