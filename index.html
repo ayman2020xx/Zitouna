@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zitouna - Intro</title>
+  <title>Zitouna ┃ زيتونة</title>
   <style>
     * {
       margin: 0;
@@ -110,12 +110,43 @@
       width: 40px;
       height: 40px;
     }
+
+      .m{
+        display: initial;
+      }
+
+      .p{
+        display: none;
+      }
+    
+    @media (max-width:820px){
+      .m{
+        display: none;
+      }
+
+      .p{
+        display: initial;
+      }
+      
+      #mute-btn{
+        display: none;
+      }
+
+      .intro-text{
+        font-size: 1.6rem;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <video id="intro-video" autoplay muted playsinline>
+  <video class="m" id="intro-video" autoplay muted playsinline>
     <source src="intro.mp4" type="video/mp4" />
+    Votre navigateur ne supporte pas la vidéo.
+  </video>
+
+  <video class="p" id="intro-video-mbl" autoplay muted playsinline>
+    <source src="intro-mbl.mp4" type="video/mp4" />
     Votre navigateur ne supporte pas la vidéo.
   </video>
 
@@ -135,6 +166,7 @@
 
   <script>
     const video = document.getElementById('intro-video');
+    const videom = document.getElementById('intro-video-mbl');
     const text = document.getElementById('intro-text');
     const button = document.getElementById('enter-btn');
     const muteBtn = document.getElementById('mute-btn');
@@ -167,6 +199,14 @@
       }
     });
 
+    videom.addEventListener('timeupdate', () => {
+      if (videom.currentTime >= 11) {
+        text.classList.add('show');
+        button.classList.add('show');
+        videom.classList.add('blurred');
+      }
+    });
+
     button.addEventListener('click', () => {
       window.location.href = 'Accueil.html';
     });
@@ -183,6 +223,10 @@
       }
     });
   </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
