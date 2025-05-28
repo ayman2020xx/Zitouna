@@ -185,7 +185,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  max-height: 500px;
+  max-height: 400px;
   opacity: 0;
   transition: opacity 0.8s ease, transform 1.5s ease;
 }
@@ -570,7 +570,7 @@ footer {
 
 
 
-@media (max-width:1558px){
+@media (max-width:1458px){
 .left {
 display: none;
 }
