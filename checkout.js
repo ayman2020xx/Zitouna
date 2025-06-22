@@ -31,3 +31,39 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 });
+
+
+
+document.getElementById('finaliser-achat-btn').addEventListener('click', async () => {
+  // Example: get cart items from localStorage or your app state
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Example: get user info from form inputs
+  const userInfo = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    address: document.getElementById('address').value,
+    // etc.
+  };
+
+  const orderData = { cartItems, userInfo };
+
+  try {
+    const response = await fetch('https://your-backend-url/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    });
+
+    if (response.ok) {
+      alert('Commande enregistrée avec succès !');
+      localStorage.removeItem('cart'); // clear cart
+      // redirect or update UI as needed
+    } else {
+      alert('Erreur lors de l\'enregistrement de la commande.');
+    }
+  } catch (error) {
+    console.error(error);
+    alert('Erreur réseau, veuillez réessayer plus tard.');
+  }
+});
