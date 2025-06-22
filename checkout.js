@@ -34,36 +34,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-document.getElementById('finaliser-achat-btn').addEventListener('click', async () => {
-  // Example: get cart items from localStorage or your app state
+
+
+document.getElementById('finaliser-btn').addEventListener('click', async function () {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+
+  if (!name || !email || !address || !phone) {
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  const userInfo = { name, email, address, phone };
   const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
-  // Example: get user info from form inputs
-  const userInfo = {
-    name: document.getElementById('name').value,
-    email: document.getElementById('email').value,
-    address: document.getElementById('address').value,
-    // etc.
-  };
-
-  const orderData = { cartItems, userInfo };
+  if (cartItems.length === 0) {
+    alert("Votre panier est vide.");
+    return;
+  }
 
   try {
-    const response = await fetch('https://your-backend-url/api/orders', {
+    const response = await fetch('http://localhost:3000/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(orderData)
+      body: JSON.stringify({ userInfo, cartItems })
     });
 
+    const result = await response.json();
+
     if (response.ok) {
-      alert('Commande enregistrée avec succès !');
-      localStorage.removeItem('cart'); // clear cart
-      // redirect or update UI as needed
+      alert("Commande envoyée avec succès !");
+      localStorage.removeItem('cart');
+      window.location.href = "confirmation.html"; // or home page
     } else {
-      alert('Erreur lors de l\'enregistrement de la commande.');
+      alert("Erreur : " + result.message);
     }
   } catch (error) {
     console.error(error);
-    alert('Erreur réseau, veuillez réessayer plus tard.');
+    alert("Erreur lors de l'envoi de la commande.");
   }
 });
