@@ -22,6 +22,10 @@ const adminAuth = basicAuth({
 
 app.use(express.json());
 
+// Configurar o express.static para servir arquivos estáticos do diretório raiz
+// Isso deve vir antes das rotas específicas para garantir que os arquivos estáticos sejam servidos corretamente.
+app.use(express.static(path.join(__dirname)));
+
 // Middleware to log all incoming requests for debugging
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] Received ${req.method} request for ${req.originalUrl}`);
@@ -31,9 +35,9 @@ app.use((req, res, next) => {
 // --- ROUTES ---
 
 // Homepage Route - REMOVED, express.static will handle serving index.html by default.
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'Accueil.html'));
-// });
+/* app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Accueil.html'));
+}); */
 
 // API ROUTES
 app.get('/api/products', async (req, res) => {
@@ -186,9 +190,6 @@ app.post('/api/orders', async (req, res) => {
 // The single middleware below will serve the admin panel (index.html, css, js)
 // and protect the entire /admin path.
 app.use('/admin', adminAuth, express.static(path.join(__dirname, 'admin')));
-
-// Serve general static files -- RE-ENABLING for Vercel.
-app.use(express.static(path.join(__dirname)));
 
 // --- Server Startup ---
 app.listen(port, () => {
