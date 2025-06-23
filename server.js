@@ -3,6 +3,9 @@ const fs = require('fs').promises;
 const path = require('path');
 const basicAuth = require('express-basic-auth');
 
+// Define the writable path for the orders file in Vercel's temp directory
+const ordersFilePath = path.join(process.env.VERCEL ? '/tmp' : __dirname, 'orders.json');
+
 const app = express();
 const port = 3000;
 
@@ -54,7 +57,7 @@ app.get('/api/products/:id', async (req, res) => {
 // Protected route to get all orders for the admin panel
 app.get('/api/admin/orders', adminAuth, async (req, res) => {
     try {
-        const ordersData = await fs.readFile(path.join(__dirname, 'orders.json'), 'utf-8');
+        const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
         const orders = JSON.parse(ordersData);
         res.json(orders);
     } catch (error) {
@@ -78,9 +81,13 @@ app.patch('/api/admin/orders/:id/status', adminAuth, async (req, res) => {
             return res.status(400).json({ message: 'Statut invalide fourni.' });
         }
 
-        const ordersFilePath = path.join(__dirname, 'orders.json');
-        const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
-        let orders = JSON.parse(ordersData);
+        let orders = [];
+        try {
+            const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
+            orders = JSON.parse(ordersData);
+        } catch (readError) {
+            if (readError.code !== 'ENOENT') throw readError;
+        }
 
         const orderIndex = orders.findIndex(order => order.id === id);
 
@@ -104,10 +111,14 @@ app.patch('/api/admin/orders/:id/status', adminAuth, async (req, res) => {
 app.delete('/api/admin/orders/:id', adminAuth, async (req, res) => {
     try {
         const { id } = req.params;
-        const ordersFilePath = path.join(__dirname, 'orders.json');
         
-        const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
-        let orders = JSON.parse(ordersData);
+        let orders = [];
+        try {
+            const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
+            orders = JSON.parse(ordersData);
+        } catch (readError) {
+            if (readError.code !== 'ENOENT') throw readError;
+        }
         
         const initialLength = orders.length;
         orders = orders.filter(order => order.id !== id);
@@ -143,13 +154,11 @@ app.post('/api/orders', async (req, res) => {
             total: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
         };
 
-        const ordersFilePath = path.join(__dirname, 'orders.json');
         let orders = [];
         try {
             const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
             orders = JSON.parse(ordersData);
         } catch (readError) {
-            // File might not exist yet, which is fine.
             if (readError.code !== 'ENOENT') {
                 throw readError;
             }
