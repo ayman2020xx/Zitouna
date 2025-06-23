@@ -2,7 +2,7 @@ const express = require('express');
 const { createClient } = require('@vercel/kv');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
-const fs = require('fs').promises;
+const products = require('./products.json'); // Importar os produtos diretamente
 
 // Inicializa o cliente KV a partir das variáveis de ambiente da Vercel.
 const kv = createClient({
@@ -13,7 +13,6 @@ const kv = createClient({
 const app = express();
 const port = 3000;
 
-// Trigger new deploy
 // Configuração do Admin
 const adminAuth = basicAuth({
     users: { 'admin': 'zitouna123' },
@@ -24,32 +23,20 @@ const adminAuth = basicAuth({
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// --- API DE PRODUTOS (Lendo do ficheiro local) ---
+// --- API DE PRODUTOS (Lendo da variável importada) ---
 
-app.get('/api/products', async (req, res) => {
-    try {
-        const productsData = await fs.readFile(path.join(__dirname, 'products.json'), 'utf-8');
-        res.json(JSON.parse(productsData));
-    } catch (error) {
-        res.status(500).json({ message: 'Error reading products data' });
-    }
+app.get('/api/products', (req, res) => {
+    res.json(products);
 });
 
-app.get('/api/products/:id', async (req, res) => {
-    try {
-        const productsData = await fs.readFile(path.join(__dirname, 'products.json'), 'utf-8');
-        const products = JSON.parse(productsData);
-        const product = products.find(p => p.id === req.params.id);
-        if (product) {
-            res.json(product);
-        } else {
-            res.status(404).json({ message: 'Product not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Error reading products data' });
+app.get('/api/products/:id', (req, res) => {
+    const product = products.find(p => p.id === req.params.id);
+    if (product) {
+        res.json(product);
+    } else {
+        res.status(404).json({ message: 'Product not found' });
     }
 });
-
 
 // --- API DE PEDIDOS (Usando Vercel KV) ---
 
