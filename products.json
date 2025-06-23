@@ -1,0 +1,62 @@
+[
+  {
+    "id": "amande",
+    "name": "Amlou Amande",
+    "price": 229,
+    "image": "amande-hero.png",
+    "description": "Huile naturelle 100% pure d'amande douce, idéale pour nourrir la peau et les cheveux en douceur."
+  },
+  {
+    "id": "arachide",
+    "name": "Amlou Arachide",
+    "price": 110,
+    "image": "arachide-hero.png",
+    "description": "Huile d'arachide raffinée, parfaite pour la cuisson et la friture avec un goût neutre."
+  },
+  {
+    "id": "chocolat",
+    "name": "Amlou Chocolat",
+    "price": 149,
+    "image": "chocolat-hero.png",
+    "description": "Huile aromatique au cacao pour soins cosmétiques et bien-être, riche en antioxydants."
+  },
+  {
+    "id": "zaefran",
+    "name": "Zaâfran",
+    "price": 149,
+    "image": "zaefran-hero.png",
+    "description": "Huile précieuse infusée au safran, utilisée pour ses vertus apaisantes et éclatantes."
+  },
+  {
+    "id": "olive",
+    "name": "Huile d'Olive",
+    "price": 99,
+    "image": "olive-hero.png",
+    "volume": "1L",
+    "description": "Huile d'olive extra vierge, pressée à froid, excellente pour la cuisine et la santé."
+  },
+  {
+    "id": "argan",
+    "name": "Huile d'Argan",
+    "price": 599,
+    "image": "argan-hero.png",
+    "volume": "1L",
+    "description": "Huile d'argan pure pour soin de la peau et des cheveux, reconnue pour ses propriétés nourrissantes."
+  },
+  {
+    "id": "olive2",
+    "name": "Huile d'Olive",
+    "price": 55,
+    "image": "olive-hero.png",
+    "volume": "500 ml",
+    "description": "Huile d'olive extra vierge, pressée à froid, excellente pour la cuisine et la santé."
+  },
+  {
+    "id": "argan2",
+    "name": "Huile d'Argan",
+    "price": 110,
+    "image": "argan-hero.png",
+    "volume": "500 ml",
+    "description": "Huile d'argan pure pour soin de la peau et des cheveux, reconnue pour ses propriétés nourrissantes."
+  }
+] 
