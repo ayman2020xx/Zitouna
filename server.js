@@ -102,6 +102,12 @@ app.delete('/api/admin/clients/:email', adminAuth, async (req, res) => {
 });
 
 // --- ROTA DE ADMIN E ARRANQUE ---
+
+// Adiciona um redirecionamento para a página de clientes ser a página principal do admin
+app.get('/admin', (req, res) => {
+    res.redirect('/admin/clients.html');
+});
+
 app.use('/admin', adminAuth, express.static(path.join(__dirname, 'admin')));
 
 app.listen(port, () => {
