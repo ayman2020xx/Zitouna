@@ -36,77 +36,48 @@ app.get('/api/products/:id', (req, res) => {
     }
 });
 
-// --- API DE PEDIDOS (Usando Upstash Redis) ---
-
-app.get('/api/admin/orders', adminAuth, async (req, res) => {
-    try {
-        const orders = await redis.get('orders') || [];
-        res.json(orders);
-    } catch (error) {
-        res.status(500).json({ message: 'Error reading orders data from Redis' });
-    }
-});
-
+// --- API DE CRIAÇÃO DE PEDIDOS (AGORA ATUALIZA OS CLIENTES) ---
 app.post('/api/orders', async (req, res) => {
     try {
         const { userInfo, cartItems } = req.body;
         if (!userInfo || !cartItems || !cartItems.length) return res.status(400).json({ message: 'Invalid order data.' });
 
+        const clients = await redis.get('clients') || [];
+        const clientIndex = clients.findIndex(c => c.email === userInfo.email);
+
         const newOrder = {
-            id: `order_${Date.now()}`,
+            orderId: `order_${Date.now()}`,
             orderDate: new Date().toISOString(),
-            status: 'En attente',
-            userInfo,
-            items: cartItems,
+            items: cartItems.map(item => ({ 
+                name: item.nom || item.name, 
+                quantity: item.quantite || item.quantity,
+                price: item.prix || item.price 
+            })),
             total: cartItems.reduce((acc, item) => acc + (item.prix || item.price) * (item.quantite || item.quantity), 0)
         };
-        const orders = await redis.get('orders') || [];
-        orders.push(newOrder);
-        await redis.set('orders', JSON.stringify(orders));
-        
-        const clients = await redis.get('clients') || [];
-        if (!clients.some(c => c.email === userInfo.email)) {
+
+        if (clientIndex > -1) {
+            // Cliente existe, adiciona o novo pedido ao seu histórico
+            if (!clients[clientIndex].orders) {
+                clients[clientIndex].orders = [];
+            }
+            clients[clientIndex].orders.push(newOrder);
+        } else {
+            // Novo cliente, cria o registo com o primeiro pedido
+            userInfo.orders = [newOrder];
             clients.push(userInfo);
-            await redis.set('clients', JSON.stringify(clients));
         }
-        res.status(201).json({ message: 'Order created successfully' });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to create order in Redis' });
-    }
-});
-
-app.patch('/api/admin/orders/:id/status', adminAuth, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { status } = req.body;
-        let orders = await redis.get('orders') || [];
-        const orderIndex = orders.findIndex(o => o.id === id);
-        if (orderIndex === -1) return res.status(404).json({ message: 'Commande non trouvée.' });
         
-        orders[orderIndex].status = status;
-        await redis.set('orders', JSON.stringify(orders));
-        res.json({ message: 'Order status updated', order: orders[orderIndex] });
+        await redis.set('clients', JSON.stringify(clients));
+        res.status(201).json({ message: 'Order processed successfully' });
+
     } catch (error) {
-        res.status(500).json({ message: 'Failed to update order status in Redis' });
+        console.error('Failed to process order:', error);
+        res.status(500).json({ message: 'Failed to process order in Redis' });
     }
 });
 
-app.delete('/api/admin/orders/:id', adminAuth, async (req, res) => {
-    try {
-        const { id } = req.params;
-        let orders = await redis.get('orders') || [];
-        const updatedOrders = orders.filter(o => o.id !== id);
-        if (orders.length === updatedOrders.length) return res.status(404).json({ message: 'Commande non trouvée.' });
-
-        await redis.set('orders', JSON.stringify(updatedOrders));
-        res.status(200).json({ message: 'Commande supprimée' });
-    } catch (error) {
-        res.status(500).json({ message: 'Failed to delete order from Redis' });
-    }
-});
-
-// --- API DE CLIENTES (Usando Upstash Redis) ---
-
+// --- API DE CLIENTES ---
 app.get('/api/admin/clients', adminAuth, async (req, res) => {
     try {
         const clients = await redis.get('clients') || [];
