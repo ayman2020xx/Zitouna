@@ -180,8 +180,8 @@ app.post('/api/orders', async (req, res) => {
 // and protect the entire /admin path.
 app.use('/admin', adminAuth, express.static(path.join(__dirname, 'admin')));
 
-// Serve general static files -- REMOVED for Vercel, it will handle this.
-// app.use(express.static(path.join(__dirname)));
+// Serve general static files -- RE-ENABLING for Vercel.
+app.use(express.static(path.join(__dirname)));
 
 // --- Server Startup ---
 app.listen(port, () => {
