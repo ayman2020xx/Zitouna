@@ -48,7 +48,7 @@ document.getElementById('finaliser-btn').addEventListener('click', async functio
   }
 
   const userInfo = { name, email, address, phone };
-  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartItems = JSON.parse(localStorage.getItem('panier')) || [];
 
   if (cartItems.length === 0) {
     alert("Votre panier est vide.");
@@ -66,7 +66,7 @@ document.getElementById('finaliser-btn').addEventListener('click', async functio
 
     if (response.ok) {
       alert("Commande envoyée avec succès !");
-      localStorage.removeItem('cart');
+      localStorage.removeItem('panier');
       window.location.href = "confirmation.html"; // or home page
     } else {
       alert("Erreur : " + result.message);
