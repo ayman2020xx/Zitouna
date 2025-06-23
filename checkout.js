@@ -36,18 +36,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-document.getElementById('finaliser-btn').addEventListener('click', async function () {
-  const name = document.getElementById('name').value.trim();
+document.getElementById('finaliser-btn').addEventListener('click', async function (event) {
+  event.preventDefault(); // Impedir que o formulário recarregue a página
+
+  // Usar os IDs corretos do formulário HTML
+  const name = document.getElementById('nom').value.trim();
   const email = document.getElementById('email').value.trim();
-  const address = document.getElementById('address').value.trim();
-  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('adresse').value.trim();
+  const phone = document.getElementById('telephone').value.trim();
 
   if (!name || !email || !address || !phone) {
     alert("Veuillez remplir tous les champs.");
     return;
   }
 
-  const userInfo = { name, email, address, phone };
+  // Criar o objeto userInfo com as chaves que o admin.js espera
+  const userInfo = { nom: name, email: email, adresse: address, telephone: phone };
   const cartItems = JSON.parse(localStorage.getItem('panier')) || [];
 
   if (cartItems.length === 0) {
