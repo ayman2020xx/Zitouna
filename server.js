@@ -1,15 +1,19 @@
 const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
+const { createClient } = require('@vercel/kv');
 const basicAuth = require('express-basic-auth');
-
-// Define the writable path for the orders file in Vercel's temp directory
-const ordersFilePath = path.join(process.env.VERCEL ? '/tmp' : __dirname, 'orders.json');
+const path = require('path');
+const fs = require('fs').promises; // Manter para ler products.json
 
 const app = express();
 const port = 3000;
 
-// Admin credentials (as requested, simple for testing)
+// Inicializa o cliente KV. As credenciais são lidas automaticamente das variáveis de ambiente da Vercel.
+const kv = createClient({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+});
+
+// Credenciais de administrador
 const adminUser = 'admin';
 const adminPassword = 'zitouna123';
 console.log(`\n--- Accès Administrateur ---\nUtilisateur: ${adminUser}\nMot de passe: ${adminPassword}\n--------------------------\n`);
@@ -22,29 +26,164 @@ const adminAuth = basicAuth({
 
 app.use(express.json());
 
-// Configurar o express.static para servir arquivos estáticos do diretório raiz
-// Isso deve vir antes das rotas específicas para garantir que os arquivos estáticos sejam servidos corretamente.
+// Servir ficheiros estáticos do diretório raiz
 app.use(express.static(path.join(__dirname)));
 
-// Middleware to log all incoming requests for debugging
+// Middleware de log para depuração
 app.use((req, res, next) => {
     console.log(`[${new Date().toISOString()}] Received ${req.method} request for ${req.originalUrl}`);
     next();
 });
 
-// --- ROUTES ---
+// --- FUNÇÃO AUXILIAR SEGURA PARA LER PEDIDOS ---
+async function getOrdersSafe() {
+    try {
+        const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
+        // Se o ficheiro estiver vazio ou for inválido, retorna um array vazio
+        return ordersData ? JSON.parse(ordersData) : [];
+    } catch (error) {
+        // Se o ficheiro não existir (ENOENT) ou houver um erro de parsing, retorna um array vazio
+        if (error.code === 'ENOENT' || error instanceof SyntaxError) {
+            return [];
+        }
+        // Para outros erros, lança a exceção
+        throw error;
+    }
+}
 
-// Homepage Route - REMOVED, express.static will handle serving index.html by default.
-/* app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Accueil.html'));
-}); */
+// --- FUNÇÃO AUXILIAR SEGURA PARA LER CLIENTES ---
+async function getClientsSafe() {
+    try {
+        const clientsData = await fs.readFile(path.join(__dirname, 'clients.json'), 'utf-8');
+        return clientsData ? JSON.parse(clientsData) : [];
+    } catch (error) {
+        if (error.code === 'ENOENT' || error instanceof SyntaxError) {
+            return [];
+        }
+        throw error;
+    }
+}
 
-// API ROUTES
+// --- ROTAS DA API PARA PEDIDOS (ORDERS) ---
+
+app.get('/api/admin/orders', adminAuth, async (req, res) => {
+    try {
+        const orders = await kv.get('orders') || [];
+        res.json(orders);
+    } catch (error) {
+        console.error('Error fetching orders from KV:', error);
+        res.status(500).json({ message: 'Error reading orders data' });
+    }
+});
+
+app.post('/api/orders', async (req, res) => {
+    try {
+        const { userInfo, cartItems } = req.body;
+        if (!userInfo || !cartItems || cartItems.length === 0) {
+            return res.status(400).json({ message: 'Invalid order data.' });
+        }
+
+        const newOrder = {
+            id: `order_${Date.now()}`,
+            orderDate: new Date().toISOString(),
+            status: 'En attente',
+            userInfo,
+            items: cartItems,
+            total: cartItems.reduce((acc, item) => acc + (item.prix || item.price) * (item.quantite || item.quantity), 0)
+        };
+
+        const orders = await kv.get('orders') || [];
+        orders.push(newOrder);
+        await kv.set('orders', orders);
+        
+        const clients = await kv.get('clients') || [];
+        if (!clients.some(c => c.email === userInfo.email)) {
+            clients.push(userInfo);
+            await kv.set('clients', clients);
+        }
+
+        res.status(201).json({ message: 'Order created successfully', order: newOrder });
+    } catch (error) {
+        console.error('Order creation error:', error);
+        res.status(500).json({ message: 'Failed to create order.' });
+    }
+});
+
+app.patch('/api/admin/orders/:id/status', adminAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        
+        let orders = await kv.get('orders') || [];
+        const orderIndex = orders.findIndex(o => o.id === id);
+
+        if (orderIndex === -1) {
+            return res.status(404).json({ message: 'Commande non trouvée.' });
+        }
+        
+        orders[orderIndex].status = status;
+        await kv.set('orders', orders);
+        
+        res.json({ message: 'Order status updated successfully', order: orders[orderIndex] });
+    } catch (error) {
+        console.error('Order status update error:', error);
+        res.status(500).json({ message: 'Erreur interne du serveur.' });
+    }
+});
+
+app.delete('/api/admin/orders/:id', adminAuth, async (req, res) => {
+    try {
+        const { id } = req.params;
+        let orders = await kv.get('orders') || [];
+        const updatedOrders = orders.filter(o => o.id !== id);
+
+        if (orders.length === updatedOrders.length) {
+            return res.status(404).json({ message: 'Commande non trouvée.' });
+        }
+
+        await kv.set('orders', updatedOrders);
+        res.status(200).json({ message: 'Commande supprimée avec succès.' });
+    } catch (error) {
+        console.error('Order deletion error:', error);
+        res.status(500).json({ message: 'Erreur lors de la suppression.' });
+    }
+});
+
+// --- ROTAS DA API PARA CLIENTES ---
+
+app.get('/api/admin/clients', adminAuth, async (req, res) => {
+    try {
+        const clients = await kv.get('clients') || [];
+        res.json(clients);
+    } catch (error) {
+        console.error('Error fetching clients from KV:', error);
+        res.status(500).json({ message: 'Error reading clients data' });
+    }
+});
+
+app.delete('/api/admin/clients/:email', adminAuth, async (req, res) => {
+    try {
+        const { email } = req.params;
+        let clients = await kv.get('clients') || [];
+        const updatedClients = clients.filter(c => c.email !== email);
+
+        if (clients.length === updatedClients.length) {
+            return res.status(404).json({ message: 'Client not found.' });
+        }
+        
+        await kv.set('clients', updatedClients);
+        res.status(200).json({ message: 'Client deleted successfully.' });
+    } catch (error) {
+        console.error('Client deletion error:', error);
+        res.status(500).json({ message: 'Error deleting client.' });
+    }
+});
+
+// --- ROTA PARA PRODUTOS (continua a ler do ficheiro local) ---
 app.get('/api/products', async (req, res) => {
     try {
         const productsData = await fs.readFile(path.join(__dirname, 'products.json'), 'utf-8');
-        const products = JSON.parse(productsData);
-        res.json(products);
+        res.json(JSON.parse(productsData));
     } catch (error) {
         res.status(500).json({ message: 'Error reading products data' });
     }
@@ -52,7 +191,7 @@ app.get('/api/products', async (req, res) => {
 
 app.get('/api/products/:id', async (req, res) => {
     try {
-        const productsData = await fs.readFile(path.join(__dirname, 'products.json'), 'utf-8');
+        const productsData = await fs.promises.readFile(path.join(__dirname, 'products.json'), 'utf-8');
         const products = JSON.parse(productsData);
         const product = products.find(p => p.id === req.params.id);
         if (product) {
@@ -65,133 +204,9 @@ app.get('/api/products/:id', async (req, res) => {
     }
 });
 
-// Protected route to get all orders for the admin panel
-app.get('/api/admin/orders', adminAuth, async (req, res) => {
-    try {
-        const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
-        const orders = JSON.parse(ordersData);
-        res.json(orders);
-    } catch (error) {
-        if (error.code === 'ENOENT') {
-            return res.json([]); // Return empty array if file doesn't exist
-        }
-        res.status(500).json({ message: 'Error reading orders data' });
-    }
-});
-
-app.patch('/api/admin/orders/:id/status', adminAuth, async (req, res) => {
-    console.log('Received PATCH request for order status.'); // Diagnostic log 1
-    console.log('Request Body:', req.body); // Diagnostic log 2
-
-    try {
-        const { id } = req.params;
-        const { status } = req.body;
-
-        if (!status || !['En attente', 'Livrée', 'Annulée'].includes(status)) {
-            console.error('Invalid status received:', status);
-            return res.status(400).json({ message: 'Statut invalide fourni.' });
-        }
-
-        let orders = [];
-        try {
-            const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
-            orders = JSON.parse(ordersData);
-        } catch (readError) {
-            if (readError.code !== 'ENOENT') throw readError;
-        }
-
-        const orderIndex = orders.findIndex(order => order.id === id);
-
-        if (orderIndex === -1) {
-            return res.status(404).json({ message: 'Commande non trouvée.' });
-        }
-
-        orders[orderIndex].status = status;
-
-        await fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), 'utf-8');
-
-        console.log(`Order ${id} status updated to ${status}`);
-        res.json({ message: 'Order status updated successfully', order: orders[orderIndex] });
-
-    } catch (error) {
-        console.error('Order status update error:', error);
-        res.status(500).json({ message: 'Erreur interne du serveur lors de la mise à jour.', error: error.message });
-    }
-});
-
-app.delete('/api/admin/orders/:id', adminAuth, async (req, res) => {
-    try {
-        const { id } = req.params;
-        
-        let orders = [];
-        try {
-            const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
-            orders = JSON.parse(ordersData);
-        } catch (readError) {
-            if (readError.code !== 'ENOENT') throw readError;
-        }
-        
-        const initialLength = orders.length;
-        orders = orders.filter(order => order.id !== id);
-
-        if (orders.length === initialLength) {
-            return res.status(404).json({ message: 'Commande non trouvée.' });
-        }
-
-        await fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), 'utf-8');
-
-        res.status(200).json({ message: 'Commande supprimée avec succès.' });
-
-    } catch (error) {
-        console.error('Order deletion error:', error);
-        res.status(500).json({ message: 'Erreur lors de la suppression de la commande.', error: error.message });
-    }
-});
-
-app.post('/api/orders', async (req, res) => {
-    try {
-        const { userInfo, cartItems } = req.body;
-
-        if (!userInfo || !cartItems || cartItems.length === 0) {
-            return res.status(400).json({ message: 'Invalid order data.' });
-        }
-
-        const newOrder = {
-            id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-            orderDate: new Date().toISOString(),
-            status: 'En attente', // Default status: Pending
-            userInfo,
-            items: cartItems,
-            total: cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-        };
-
-        let orders = [];
-        try {
-            const ordersData = await fs.readFile(ordersFilePath, 'utf-8');
-            orders = JSON.parse(ordersData);
-        } catch (readError) {
-            if (readError.code !== 'ENOENT') {
-                throw readError;
-            }
-        }
-
-        orders.push(newOrder);
-        await fs.writeFile(ordersFilePath, JSON.stringify(orders, null, 2), 'utf-8');
-
-        res.status(201).json({ message: 'Order created successfully', order: newOrder });
-
-    } catch (error) {
-        console.error('Order creation error:', error);
-        res.status(500).json({ message: 'Failed to create order.' });
-    }
-});
-
-// --- Static File Serving & Admin Route ---
-// The single middleware below will serve the admin panel (index.html, css, js)
-// and protect the entire /admin path.
+// --- Rota para Admin e Arranque do Servidor ---
 app.use('/admin', adminAuth, express.static(path.join(__dirname, 'admin')));
 
-// --- Server Startup ---
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 }); 

@@ -1,17 +1,21 @@
 {
-  "name": "zitouna-main",
+  "name": "zitouna",
   "version": "1.0.0",
-  "description": "",
+  "description": "Zitouna e-commerce website.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "zitouna",
+    "ecommerce"
+  ],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0",
+    "@vercel/kv": "^1.0.1",
+    "express": "^4.19.2",
     "express-basic-auth": "^1.2.1"
   }
 }
