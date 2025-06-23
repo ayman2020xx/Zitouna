@@ -28,6 +28,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// Homepage Route
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Accueil.html'));
+});
+
 // API ROUTES
 app.get('/api/products', async (req, res) => {
     try {
