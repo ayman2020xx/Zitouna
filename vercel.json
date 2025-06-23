@@ -13,8 +13,7 @@
           "*.mp4",
           "products.json",
           "admin/**",
-          "confirmation.html",
-          "clients.json"
+          "confirmation.html"
         ]
       }
     }
