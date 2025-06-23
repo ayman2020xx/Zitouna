@@ -34,24 +34,6 @@ app.use((req, res, next) => {
 
 // --- ROUTES ---
 
-// Adicionado para servir explicitamente as páginas HTML
-const htmlPages = [
-    'Accueil.html', 
-    'Boutique.html', 
-    'a-propos.html', 
-    'Contact.html', 
-    'cart.html', 
-    'checkout.html', 
-    'details.html', 
-    'index.html'
-];
-
-htmlPages.forEach(page => {
-    app.get(`/${page}`, (req, res) => {
-        res.sendFile(path.join(__dirname, page));
-    });
-});
-
 // Homepage Route - REMOVED, express.static will handle serving index.html by default.
 /* app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'Accueil.html'));
