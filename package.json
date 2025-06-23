@@ -14,7 +14,7 @@
   "author": "Your Name",
   "license": "ISC",
   "dependencies": {
-    "@vercel/kv": "^1.0.1",
+    "@upstash/redis": "^1.31.5",
     "express": "^4.19.2",
     "express-basic-auth": "^1.2.1"
   }
