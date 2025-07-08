@@ -6,7 +6,10 @@ const products = require('./products.json'); // Importar os produtos diretamente
 
 // Inicializa o cliente Redis a partir das variáveis de ambiente da Vercel
 // KV_URL é o mesmo que REDIS_URL que a Vercel fornece
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: 'https://tolerant-wolf-30152.upstash.io',
+  token: '********',
+})
 
 const app = express();
 const port = 3000;
