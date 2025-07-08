@@ -113,18 +113,3 @@ app.use('/admin', adminAuth, express.static(path.join(__dirname, 'admin')));
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 }); 
-
-
-
-
-
-
-
-import { Redis } from '@upstash/redis'
-const redis = new Redis({
-  url: 'https://tolerant-wolf-30152.upstash.io',
-  token: 'AXXIAAIjcDFhNDhmNTgxNDQxZjk0MjhlYjVlYTRkYWJiYzhmN2JkN3AxMA',
-})
-
-await redis.set("foo", "bar");
-await redis.get("foo");
