@@ -1,21 +1,15 @@
 const express = require('express');
-import { Redis } from '@upstash/redis'
+const { Redis } = require('@upstash/redis');
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const products = require('./products.json'); // Importar os produtos diretamente
 
 // Inicializa o cliente Redis a partir das variáveis de ambiente da Vercel
 // KV_URL é o mesmo que REDIS_URL que a Vercel fornece
-const redis = new Redis({
-  url: 'https://tolerant-wolf-30152.upstash.io',
-  token: '********',
-})
+const redis = Redis.fromEnv();
 
 const app = express();
 const port = 3000;
-
-await redis.set("foo", "bar");
-await redis.get("foo");
 
 // Configuração do Admin
 const adminAuth = basicAuth({
