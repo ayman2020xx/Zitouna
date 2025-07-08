@@ -1,5 +1,5 @@
 const express = require('express');
-const { Redis } = require('@upstash/redis');
+import { Redis } from '@upstash/redis'
 const basicAuth = require('express-basic-auth');
 const path = require('path');
 const products = require('./products.json'); // Importar os produtos diretamente
@@ -10,6 +10,9 @@ const redis = Redis.fromEnv();
 
 const app = express();
 const port = 3000;
+
+await redis.set("foo", "bar");
+await redis.get("foo");
 
 // Configuração do Admin
 const adminAuth = basicAuth({
