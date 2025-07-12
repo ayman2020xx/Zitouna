@@ -1,114 +1,156 @@
+/* Reset and base styles */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    color: #333;
+  margin: 0;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f7f6;
+  color: #333;
+  line-height: 1.6;
 }
 
+/* Header */
 header {
-    background-color: #088178;
-    color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #088178;
+  color: #fff;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 h1 {
-    margin: 0;
+  margin: 0;
+  font-size: 1.8rem;
 }
 
+/* Main Container */
 main {
-    padding: 2rem;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
 }
 
+/* Order Card Styling */
 .order-card {
-    background-color: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: border-left 0.3s ease;
-    border-left: 5px solid #6c757d; /* Default for 'En attente' */
+  background: #fff;
+  border-left: 5px solid #6c757d;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, border-left-color 0.3s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
 }
 
 .order-card[data-status="Livrée"] {
-    border-left-color: #28a745; /* Green */
+  border-left-color: #28a745;
 }
 
 .order-card[data-status="Annulée"] {
-    border-left-color: #dc3545; /* Red */
+  border-left-color: #dc3545;
 }
 
 .order-card h2 {
-    margin-top: 0;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    color: #555;
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+  color: #444;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
 }
 
-.customer-info, .order-items {
-    margin-bottom: 1rem;
+/* Sections */
+.customer-info,
+.order-items {
+  margin-bottom: 1.5rem;
 }
 
 .order-items table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
 }
 
-.order-items th, .order-items td {
-    text-align: left;
-    padding: 0.5rem;
-    border-bottom: 1px solid #e0e0e0;
+.order-items th,
+.order-items td {
+  padding: 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .order-items th {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
+  font-weight: 600;
 }
 
 .order-total {
-    text-align: right;
-    font-weight: bold;
-    margin-top: 1rem;
-    font-size: 1.1rem;
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  color: #222;
 }
 
+/* Actions */
 .order-actions {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #f0f0f0;
-    display: flex;
-    justify-content: space-between; /* This will push items to the edges */
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .status-actions {
-    display: flex;
-    gap: 10px; /* Spacing between status buttons */
+  display: flex;
+  gap: 10px;
 }
 
 .action-btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .action-btn:hover {
-    opacity: 0.85;
+  transform: scale(1.03);
 }
 
 .btn-deliver {
-    background-color: #28a745; /* Green */
+  background-color: #28a745;
 }
 
 .btn-cancel {
-    background-color: #dc3545; /* Red */
+  background-color: #dc3545;
 }
 
 .btn-delete {
-    background-color: #6c757d; /* Grey */
-} 
+  background-color: #6c757d;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .order-card {
+    padding: 1rem;
+  }
+
+  .order-items table,
+  .order-items th,
+  .order-items td {
+    font-size: 0.9rem;
+  }
+
+  .order-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-total {
+    text-align: left;
+  }
+}
