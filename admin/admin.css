@@ -1,4 +1,4 @@
-/* Reset and base styles */
+/* Base Styles */
 body {
   margin: 0;
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -10,27 +10,27 @@ body {
 /* Header */
 header {
   background-color: #088178;
-  color: #fff;
+  color: white;
   padding: 1.5rem 2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+header h1 {
   margin: 0;
   font-size: 1.8rem;
 }
 
 /* Main Container */
 main {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 2rem auto;
   padding: 0 1.5rem;
 }
 
-/* Order Card Styling */
-.order-card {
-  background: #fff;
+/* Client Card */
+.client-card {
+  background-color: #fff;
   border-left: 5px solid #6c757d;
   border-radius: 10px;
   padding: 1.5rem;
@@ -39,72 +39,56 @@ main {
   transition: transform 0.2s ease, border-left-color 0.3s ease;
 }
 
-.order-card:hover {
-  transform: translateY(-3px);
+.client-card:hover {
+  transform: translateY(-4px);
 }
 
-.order-card[data-status="Livrée"] {
-  border-left-color: #28a745;
-}
-
-.order-card[data-status="Annulée"] {
-  border-left-color: #dc3545;
-}
-
-.order-card h2 {
-  margin: 0 0 1rem;
-  font-size: 1.4rem;
-  color: #444;
-  border-bottom: 2px solid #eee;
-  padding-bottom: 0.5rem;
-}
-
-/* Sections */
-.customer-info,
-.order-items {
+/* Client Info */
+.client-info {
   margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #444;
 }
 
-.order-items table {
+/* Orders Section */
+.client-orders h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.orders-table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.client-orders table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;
+  background: #fafafa;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
-.order-items th,
-.order-items td {
-  padding: 0.6rem;
+.client-orders th,
+.client-orders td {
+  padding: 0.75rem;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.order-items th {
-  background-color: #f9f9f9;
+.client-orders th {
+  background-color: #f1f1f1;
   font-weight: 600;
 }
 
-.order-total {
-  text-align: right;
-  font-weight: bold;
-  font-size: 1.1rem;
-  margin-top: 1rem;
-  color: #222;
-}
-
-/* Actions */
-.order-actions {
+/* Action Buttons */
+.client-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 1.5rem;
-  border-top: 1px solid #eee;
+  gap: 12px;
+  margin-top: 1.5rem;
   flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.status-actions {
-  display: flex;
-  gap: 10px;
 }
 
 .action-btn {
@@ -114,63 +98,56 @@ main {
   font-weight: 600;
   cursor: pointer;
   color: white;
+  font-size: 0.95rem;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .action-btn:hover {
-  transform: scale(1.03);
+  transform: scale(1.05);
 }
 
-.btn-deliver {
+/* Validation Button Colors */
+.btn-valid {
   background-color: #28a745;
 }
 
-.btn-cancel {
-  background-color: #dc3545;
-}
-
-.btn-delete {
-  background-color: #6c757d;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .order-card {
-    padding: 1rem;
-  }
-
-  .order-items table,
-  .order-items th,
-  .order-items td {
-    font-size: 0.9rem;
-  }
-
-  .order-actions {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .order-total {
-    text-align: left;
-  }
-}
-
-/* Validation buttons */
-.btn-valid {
-  background-color: #007bff; /* Blue */
+.btn-valid:hover {
+  background-color: #218838;
 }
 
 .btn-invalid {
-  background-color: #fd7e14; /* Orange */
+  background-color: #dc3545;
 }
 
-/* Visual state on card */
+.btn-invalid:hover {
+  background-color: #c82333;
+}
+
+/* Optional visual flags (if you want to use them later) */
 .client-card.validated {
-  border-left: 5px solid #007bff;
-  background-color: #e9f3ff;
+  border-left-color: #28a745;
+  background-color: #e8f6ec;
 }
 
 .client-card.invalidated {
-  border-left: 5px solid #fd7e14;
-  background-color: #fff4e6;
+  border-left-color: #dc3545;
+  background-color: #fff3f1;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .client-card {
+    padding: 1rem;
+  }
+
+  .client-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .client-orders table,
+  .client-orders th,
+  .client-orders td {
+    font-size: 0.9rem;
+  }
 }
