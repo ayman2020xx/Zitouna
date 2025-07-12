@@ -154,3 +154,23 @@ main {
     text-align: left;
   }
 }
+
+/* Validation buttons */
+.btn-valid {
+  background-color: #007bff; /* Blue */
+}
+
+.btn-invalid {
+  background-color: #fd7e14; /* Orange */
+}
+
+/* Visual state on card */
+.client-card.validated {
+  border-left: 5px solid #007bff;
+  background-color: #e9f3ff;
+}
+
+.client-card.invalidated {
+  border-left: 5px solid #fd7e14;
+  background-color: #fff4e6;
+}
