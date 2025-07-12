@@ -1,128 +1,195 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-    color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f7f6;
+  margin: 0;
+  color: #333;
+  line-height: 1.5;
 }
 
 header {
-    background-color: #088178;
-    color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-h1 {
-    margin: 0;
+  background-color: #088178;
+  color: white;
+  padding: 1.25rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 
 main {
-    padding: 2rem;
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
+/* Client / Order Card */
 .order-card {
-    background-color: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: border-left 0.3s ease;
-    border-left: 5px solid #6c757d; /* Default for 'En attente' */
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  transition: border-left-color 0.3s ease, box-shadow 0.3s ease;
+  border-left: 5px solid #6c757d; /* Default */
+}
+
+.order-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 
 .order-card[data-status="Livrée"] {
-    border-left-color: #28a745; /* Green */
+  border-left-color: #28a745; /* Green */
+  background-color: #e6f4ea;
 }
 
 .order-card[data-status="Annulée"] {
-    border-left-color: #dc3545; /* Red */
+  border-left-color: #dc3545; /* Red */
+  background-color: #fbeaea;
 }
 
 .order-card h2 {
-    margin-top: 0;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    color: #555;
+  margin-top: 0;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  color: #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
+.order-status {
+  font-weight: 700;
+  color: #555;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+/* Customer info & order items */
 .customer-info, .order-items {
-    margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+  color: #444;
 }
 
 .order-items table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: #fafafa;
+  border-radius: 6px;
+  overflow: hidden;
 }
 
 .order-items th, .order-items td {
-    text-align: left;
-    padding: 0.5rem;
-    border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .order-items th {
-    background-color: #f9f9f9;
+  background-color: #f9f9f9;
+  font-weight: 700;
 }
 
 .order-total {
-    text-align: right;
-    font-weight: bold;
-    margin-top: 1rem;
-    font-size: 1.1rem;
+  text-align: right;
+  font-weight: 700;
+  margin-top: 1rem;
+  font-size: 1.15rem;
+  color: #222;
 }
 
+/* Action Buttons Container */
 .order-actions {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #f0f0f0;
-    display: flex;
-    justify-content: space-between; /* This will push items to the edges */
-    align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
 }
 
+/* Status Buttons Container */
 .status-actions {
-    display: flex;
-    gap: 10px; /* Spacing between status buttons */
+  display: flex;
+  gap: 12px;
 }
 
+/* Buttons general style */
 .action-btn {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  user-select: none;
+  box-shadow: 0 3px 7px rgba(0,0,0,0.1);
 }
 
 .action-btn:hover {
-    opacity: 0.85;
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
+/* Specific button colors */
 .btn-deliver {
-    background-color: #28a745; /* Green */
+  background-color: #28a745;
+  box-shadow: 0 4px 15px rgba(40,167,69,0.4);
+}
+.btn-deliver:hover {
+  background-color: #218838;
+  box-shadow: 0 6px 20px rgba(33,136,56,0.6);
 }
 
 .btn-cancel {
-    background-color: #dc3545; /* Red */
+  background-color: #dc3545;
+  box-shadow: 0 4px 15px rgba(220,53,69,0.4);
+}
+.btn-cancel:hover {
+  background-color: #c82333;
+  box-shadow: 0 6px 20px rgba(200,35,51,0.6);
 }
 
 .btn-delete {
-    background-color: #6c757d; /* Grey */
-} 
+  background-color: #6c757d;
+  box-shadow: 0 4px 15px rgba(108,117,125,0.4);
+}
+.btn-delete:hover {
+  background-color: #5a6268;
+  box-shadow: 0 6px 20px rgba(90,98,104,0.6);
+}
 
 /* Validation buttons */
 .btn-valid {
   background-color: #007bff; /* Blue */
+  box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+}
+.btn-valid:hover {
+  background-color: #0069d9;
+  box-shadow: 0 6px 20px rgba(0,105,217,0.6);
 }
 
 .btn-invalid {
   background-color: #fd7e14; /* Orange */
+  box-shadow: 0 4px 15px rgba(253,126,20,0.4);
+}
+.btn-invalid:hover {
+  background-color: #e06c00;
+  box-shadow: 0 6px 20px rgba(224,108,0,0.6);
 }
 
-/* Visual state on card */
+/* Card states for validation (optional) */
 .client-card.validated {
   border-left: 5px solid #007bff;
   background-color: #e9f3ff;
@@ -131,4 +198,28 @@ main {
 .client-card.invalidated {
   border-left: 5px solid #fd7e14;
   background-color: #fff4e6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .order-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .status-actions {
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .action-btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 1.1rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
 }
