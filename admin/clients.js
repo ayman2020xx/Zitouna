@@ -52,11 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     ` : '<p>Aucune commande pour ce client.</p>'}
                 </div>
 
-                <div class="client-actions">
-                    <button class="action-btn btn-valid" data-email="${client.email}">Valider</button>
-                    <button class="action-btn btn-invalid" data-email="${client.email}">Invalider</button>
-                    <button class="action-btn btn-delete" data-email="${client.email}">Supprimer</button>
-                </div>
+<div class="client-actions">
+    <button class="action-btn btn-valid" data-email="${client.email}">Valider</button>
+    <button class="action-btn btn-invalid" data-email="${client.email}">Invalider</button>
+</div>
             </div>
         `).join('');
     }
@@ -76,50 +75,48 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function deleteClient(email) {
-        if (!confirm(`Êtes-vous sûr de vouloir supprimer le client ${email}? Cette action est irréversible.`)) return;
-        try {
-            const encodedEmail = encodeURIComponent(email);
-            const response = await fetch(`/api/admin/clients/${encodedEmail}`, {
-                method: 'DELETE',
-                credentials: 'same-origin'
-            });
+async function deleteClient(email, status = '') {
+    try {
+        const encodedEmail = encodeURIComponent(email);
+        const response = await fetch(`/api/admin/clients/${encodedEmail}`, {
+            method: 'DELETE',
+            credentials: 'same-origin'
+        });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'La suppression a échoué');
-            }
-
-            const clientCard = document.getElementById(`client-${email}`);
-            if (clientCard) clientCard.remove();
-
-        } catch (error) {
-            console.error('Delete error:', error);
-            alert(`Erreur: ${error.message}`);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'La suppression a échoué');
         }
+
+        const clientCard = document.getElementById(`client-${email}`);
+        if (clientCard) clientCard.remove();
+
+        if (status) {
+            alert(`Client ${email} supprimé avec statut : ${status}`);
+        }
+
+    } catch (error) {
+        console.error('Delete error:', error);
+        alert(`Erreur: ${error.message}`);
     }
+}
+
 
     if (clientsContainer) {
-        clientsContainer.addEventListener('click', (event) => {
-            const email = event.target.dataset.email;
+clientsContainer.addEventListener('click', (event) => {
+    const email = event.target.dataset.email;
 
-            if (event.target.matches('.btn-delete')) {
-                deleteClient(email);
-            } else if (event.target.matches('.btn-valid')) {
-                const card = document.getElementById(`client-${email}`);
-                if (card) {
-                    card.classList.add('validated');
-                    card.classList.remove('invalidated');
-                }
-            } else if (event.target.matches('.btn-invalid')) {
-                const card = document.getElementById(`client-${email}`);
-                if (card) {
-                    card.classList.add('invalidated');
-                    card.classList.remove('validated');
-                }
-            }
-        });
+    if (event.target.matches('.btn-valid')) {
+        if (confirm(`Valider et supprimer le client ${email} ?`)) {
+            deleteClient(email, 'validé');
+        }
+    } else if (event.target.matches('.btn-invalid')) {
+        if (confirm(`Invalider et supprimer le client ${email} ?`)) {
+            deleteClient(email, 'non-validé');
+        }
     }
+});
+
 
     fetchClients();
 });
