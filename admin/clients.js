@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Ordenar por nome
+        // Trier par nom
         clients.sort((a, b) => (a.nom || '').localeCompare(b.nom || ''));
 
         clientsContainer.innerHTML = clients.map(client => `
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <strong>Téléphone:</strong> ${client.telephone}<br>
                     <strong>Adresse:</strong> ${client.adresse}
                 </div>
-                
+
                 <div class="client-orders">
                     <h4>Historique des Commandes</h4>
                     ${client.orders && client.orders.length > 0 ? `
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <td>${new Date(order.orderDate).toLocaleDateString('fr-FR')}</td>
                                             <td>
                                                 <ul>
-                                                ${order.items.map(item => `<li>${item.name} (x${item.quantity})</li>`).join('')}
+                                                    ${order.items.map(item => `<li>${item.name} (x${item.quantity})</li>`).join('')}
                                                 </ul>
                                             </td>
                                             <td>${order.total.toFixed(2)} MAD</td>
@@ -53,7 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div class="client-actions">
-                    <button class="action-btn btn-delete" data-email="${client.email}">Supprimer le Client</button>
+                    <button class="action-btn btn-valid" data-email="${client.email}">Valider</button>
+                    <button class="action-btn btn-invalid" data-email="${client.email}">Invalider</button>
+                    <button class="action-btn btn-delete" data-email="${client.email}">Supprimer</button>
                 </div>
             </div>
         `).join('');
@@ -87,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'La suppression a échoué');
             }
-            
+
             const clientCard = document.getElementById(`client-${email}`);
             if (clientCard) clientCard.remove();
 
@@ -99,11 +101,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (clientsContainer) {
         clientsContainer.addEventListener('click', (event) => {
+            const email = event.target.dataset.email;
+
             if (event.target.matches('.btn-delete')) {
-                deleteClient(event.target.dataset.email);
+                deleteClient(email);
+            } else if (event.target.matches('.btn-valid')) {
+                const card = document.getElementById(`client-${email}`);
+                if (card) {
+                    card.classList.add('validated');
+                    card.classList.remove('invalidated');
+                }
+            } else if (event.target.matches('.btn-invalid')) {
+                const card = document.getElementById(`client-${email}`);
+                if (card) {
+                    card.classList.add('invalidated');
+                    card.classList.remove('validated');
+                }
             }
         });
     }
 
     fetchClients();
-}); 
+});
