@@ -217,7 +217,7 @@ footer.section-p1 {
   padding: 2rem 0;
   font-size: 0.95rem;
   color: #555;
-  margin-top: 4rem;
+  margin-top: 8rem;
   border-top: 1px solid #e2e2e2;
 }
 
@@ -233,7 +233,7 @@ footer.section-p1 {
 }
 
 
-@media (max-width: 600px) {
+@media (max-width: 1180px) {
   #header {
     padding: 15px 30px;
   }
@@ -304,4 +304,56 @@ footer.section-p1 {
 .contact-info p {
     font-size: 0.98624rem;
 }
+}
+
+
+@media (max-width: 600px) {
+  #header {
+    padding: 15px 30px;
+  }
+
+  #navbar{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    right: -320px;
+    height: 100vh;
+    width: 280px;
+    z-index: 9999;
+    background-color: #c6cec0;
+    box-shadow: 0 40px 60px rgba(0, 0, 0, 0.4);
+    padding: 80px 0 0 20px;
+    transition: 0.26s;
+  }
+
+  #navbar li{
+    margin-bottom: 15px;
+  }
+
+  #mobile{
+  display: flex;
+  align-items: center;
+  }
+
+  #mobile i{
+    color: #1a1a1a;
+    font-size: 24px;
+    padding-left: 20px;
+  }
+
+  #close{
+    display: initial;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: #222;
+    font-size: 24px;
+  }
+
+  #lg-bag{
+    display: none;
+  }
 }
