@@ -78,6 +78,6 @@ Para acessar a área de gerenciamento de pedidos:
 2.  O navegador solicitará as credenciais. Utilize as seguintes:
 
     - **Usuário:** `admin`
-    - **Senha:** `zitouna000`
+    - **Senha:** `#####`
 
 ---
