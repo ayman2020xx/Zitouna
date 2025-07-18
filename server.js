@@ -13,7 +13,7 @@ const port = 3000;
 
 // Configuração do Admin
 const adminAuth = basicAuth({
-    users: { 'admin': 'zitouna123' },
+    users: { 'admin': '$zitozito2020#@' },
     challenge: true,
     realm: 'ZitounaAdmin',
 });
