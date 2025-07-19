@@ -6,6 +6,7 @@
   <title>Finaliser l'achat - Zitouna</title>
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
   <link rel="stylesheet" href="details.css" />
+  <link rel="shortcut icon" href="icon.jpg" type="image/x-icon">
   <style>
     /* Temporary styles until we refine details.css for checkout */
     #checkout {
@@ -131,60 +132,6 @@
   font-size: 1.2rem;
 }
 
-
-
-
-
-
-
-
-
-
-
-.cart-summary {
-  max-width: 3500px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin: 20px auto;
-}
-
-.cart-summary h2 {
-  font-size: 1.5rem;
-  margin-bottom: 15px;
-  text-align: center;
-}
-
-.summary-line {
-  display: flex;
-  justify-content: space-between;
-  margin: 8px 0;
-}
-
-.summary-line.total {
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.checkout-btn {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(45deg, #2f855a, #38a169);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.checkout-btn:hover {
-  background: linear-gradient(45deg, #38a169, #2f855a);
-}
-
   </style>
 </head>
 <body>
@@ -212,15 +159,6 @@
   <!-- Checkout Section -->
   <section id="checkout" class="section-p1">
 
-    <div class="cart-summary">
-  <h2>Résumé de la commande</h2>
-  <div class="summary-line"><span>Sous-total</span><span id="subtotal">0 MAD</span></div>
-  <div class="summary-line"><span>Frais de livraison</span><span>Gratuit</span></div>
-  <hr>
-  <div class="summary-line total"><span>Total</span><span id="total">0 MAD</span></div>
-</div>
-
-
     <form id="checkout-form">
       <h2>Informations de livraison</h2>
 
@@ -236,7 +174,7 @@
       <label for="adresse">Adresse :</label>
       <textarea id="adresse" name="adresse" placeholder="Votre adresse" required></textarea>
 
-      <button type="submit" class="finaliser-achat-btn">Finaliser l'achat</button>
+      <button type="submit" class="finaliser-achat-btn" id="finaliser-btn">Finaliser l'achat</button>
     </form>
 
     <div id="confirmation-message"></div>
@@ -249,4 +187,3 @@
   <script src="checkout.js"></script>
 </body>
 </html>
-
